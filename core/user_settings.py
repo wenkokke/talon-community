@@ -3,10 +3,9 @@ import os
 from pathlib import Path
 
 from talon import resource
+from talon_init import TALON_HOME
 
-# NOTE: This method requires this module to be one folder below the top-level
-#   community/knausj folder.
-SETTINGS_DIR = Path(__file__).parents[1] / "settings"
+SETTINGS_DIR = TALON_HOME / "user" / "settings"
 
 if not SETTINGS_DIR.is_dir():
     os.mkdir(SETTINGS_DIR)
