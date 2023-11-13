@@ -24,3 +24,5 @@ speech.engine: dragon
     user.mouse_sleep()
     speech.disable()
     user.engine_sleep()
+
+^drowsy [<phrase>]$: speech.disable()
