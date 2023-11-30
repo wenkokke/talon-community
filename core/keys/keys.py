@@ -9,6 +9,7 @@ f_digits = "one two three four five six seven eight nine ten eleven twelve thirt
 
 mod = Module()
 mod.list("letter", desc="The spoken phonetic alphabet")
+mod.list("greek_letter", desc="The spoken phonetic Greek alphabet")
 mod.list("symbol_key", desc="All symbols from the keyboard")
 mod.list("arrow_key", desc="All arrow keys")
 mod.list("number_key", desc="All number keys")
@@ -46,6 +47,12 @@ def number_key(m) -> str:
 def letter(m) -> str:
     "One letter key"
     return m.letter
+
+
+@mod.capture(rule="greek {self.greek_letter}")
+def greek_letter(m) -> str:
+    "One Greek letter"
+    return m.greek_letter
 
 
 @mod.capture(rule="{self.special_key}")
@@ -97,10 +104,16 @@ def keys(m) -> str:
     return " ".join(m.key_list)
 
 
-@mod.capture(rule="{self.letter}+")
+@mod.capture(rule="<self.letter> | <self.greek_letter>")
+def any_letter(m) -> str:
+    "Any letter"
+    return str(m)
+
+
+@mod.capture(rule="<self.any_letter>+")
 def letters(m) -> str:
     "Multiple letter keys"
-    return "".join(m.letter_list)
+    return "".join(m.any_letter_list)
 
 
 ctx = Context()

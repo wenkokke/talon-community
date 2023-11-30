@@ -1,3 +1,4 @@
+<user.greek_letter>: user.insert_with_history(greek_letter)
 <user.letter>: key(letter)
 (ship | uppercase) <user.letters> [(lowercase | sunk)]:
     user.insert_formatted(letters, "ALL_CAPS")
