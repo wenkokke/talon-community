@@ -20,12 +20,31 @@ alphabet_list = get_list_from_csv(
     "alphabet.csv", ("Letter", "Spoken Form"), setup_default_alphabet()
 )
 
+
+def setup_default_greek_alphabet():
+    """set up common default Greek alphabet.
+
+    no need to modify this here, change your alphabet using alphabet.csv"""
+    initial_default_greek_alphabet = "air bat gust drum each zip hench thorn sit crunch look made near plex odd pit red sun trap urge fine chai psi ooze".split()
+    initial_greek_letters_string = "αβγδεζηθικλμνξοπρστυφχψω"
+    initial_default_greek_alphabet_dict = dict(
+        zip(initial_default_greek_alphabet, initial_greek_letters_string)
+    )
+
+    return initial_default_greek_alphabet_dict
+
+
+greek_alphabet_list = get_list_from_csv(
+    "greek_alphabet.csv", ("Letter", "Spoken Form"), setup_default_greek_alphabet()
+)
+
 # used for number keys & function keys respectively
 digits = "zero one two three four five six seven eight nine".split()
 f_digits = "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split()
 
 mod = Module()
 mod.list("letter", desc="The spoken phonetic alphabet")
+mod.list("greek_letter", desc="The spoken phonetic Greek alphabet")
 mod.list("symbol_key", desc="All symbols from the keyboard")
 mod.list("arrow_key", desc="All arrow keys")
 mod.list("number_key", desc="All number keys")
@@ -63,6 +82,12 @@ def number_key(m) -> str:
 def letter(m) -> str:
     "One letter key"
     return m.letter
+
+
+@mod.capture(rule="greek {self.greek_letter}")
+def greek_letter(m) -> str:
+    "One Greek letter"
+    return m.greek_letter
 
 
 @mod.capture(rule="{self.special_key}")
@@ -114,10 +139,16 @@ def keys(m) -> str:
     return " ".join(m.key_list)
 
 
-@mod.capture(rule="{self.letter}+")
+@mod.capture(rule="<self.letter> | <self.greek_letter>")
+def any_letter(m) -> str:
+    "Any letter"
+    return str(m)
+
+
+@mod.capture(rule="<self.any_letter>+")
 def letters(m) -> str:
     "Multiple letter keys"
-    return "".join(m.letter_list)
+    return "".join(m.any_letter_list)
 
 
 ctx = Context()
@@ -133,6 +164,7 @@ if app.platform == "mac":
     modifier_keys["option"] = "alt"
 ctx.lists["self.modifier_key"] = modifier_keys
 ctx.lists["self.letter"] = alphabet_list
+ctx.lists["self.greek_letter"] = greek_alphabet_list
 
 # `punctuation_words` is for words you want available BOTH in dictation and as key names in command mode.
 # `symbol_key_words` is for key names that should be available in command mode, but NOT during dictation.
