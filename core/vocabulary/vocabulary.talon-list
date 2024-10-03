@@ -1,11 +1,6 @@
 list: user.vocabulary
 -
-N map: nmap
-under documented: under-documented
-nmap
-admin
-Cisco
-Citrix
-VPN
-DNS
-Minecraft
+pie calculus: π-calculus
+pie calculi: π-calculi
+lambda calculus: λ-calculus
+lambda calculi: λ-calculi
