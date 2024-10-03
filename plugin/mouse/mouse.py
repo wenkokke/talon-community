@@ -352,12 +352,12 @@ def scroll_continuous_helper():
     global scroll_amount
     # print("scroll_continuous_helper")
     if scroll_amount and (eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE):
-        actions.mouse_scroll(by_lines=False, y=int(scroll_amount / 10))
+        actions.mouse_scroll(by_lines=False, y=int(scroll_amount / 40))
 
 
 def start_scroll():
     global scroll_job
-    scroll_job = cron.interval("60ms", scroll_continuous_helper)
+    scroll_job = cron.interval("15ms", scroll_continuous_helper)
 
 
 def gaze_scroll():
